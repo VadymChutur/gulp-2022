@@ -4,10 +4,14 @@ import gulp from 'gulp';
 //import path
 import { path } from './gulp/config/path.js';
 
+//import plugins
+import { plugins } from './gulp/config/plugins.js';
+
 //global const
 global.app = {
   path: path,
   gulp: gulp,
+  plugins: plugins,
 };
 
 //import task
