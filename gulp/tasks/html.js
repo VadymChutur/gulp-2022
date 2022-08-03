@@ -20,19 +20,23 @@ export const html = () => {
       })
     )
     .pipe(app.plugins.replace(/@img\//g, 'img/'))
-    .pipe(webpHtmlNosvg())
+    .pipe(app.plugins.if(app.isBuild, webpHtmlNosvg()))
     .pipe(
-      versionNumber({
-        valur: '%DT%',
-        append: {
-          key: '_v',
-          cover: 0,
-          to: ['css', 'js'],
-        },
-        output: {
-          file: 'gulp/version.json',
-        },
-      })
+      app.plugins.if(
+        app.isBuild,
+        versionNumber({
+          valur: '%DT%',
+          append: {
+            key: '_v',
+            cover: 0,
+            to: ['css', 'js'],
+          },
+          output: {
+            file: 'gulp/version.json',
+          },
+        })
+      )
     )
-    .pipe(app.gulp.dest(app.path.build.html));
+    .pipe(app.gulp.dest(app.path.build.html))
+    .pipe(app.plugins.browsersync.stream());
 };
